@@ -5,7 +5,7 @@
   import { take } from "ramda";
   import Like from "../components/like.svelte";
 
-  // write function call to getAssetData function
+  let assetData = getAssetData();
 </script>
 
 <!-- view page ui -->

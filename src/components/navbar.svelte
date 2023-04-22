@@ -7,11 +7,12 @@
   $: name = $profile ? $profile.given_name + " " + $profile.family_name : "";
 
   async function handleConnect() {
-    // write code for handling connection with app
+    $profile = await Othent.logIn();
   }
 
   async function handleDisconnect() {
-    // write code for logging out of app
+    await Othent.logOut();
+    $profile = null;
   }
 </script>
 

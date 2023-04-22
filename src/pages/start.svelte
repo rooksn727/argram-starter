@@ -4,7 +4,10 @@
   import { Othent } from "permawebjs/auth";
 
   async function handleConnect() {
-    // write code for handling connection with app
+    //Othent is library that helps onboard masses to ecosystem w/ email address or google acc
+    //call logIn function and it returns details of connected user
+    //we store it in profiel variable
+    $profile = await Othent.logIn();
   }
 </script>
 

@@ -22,7 +22,36 @@
   $: notValid = !(files && title !== "");
 
   async function createPost(e) {
-    // write code to call postAsset function from `post.js` and create new post
+    // creates asset object with user inputs
+    const asset = {
+      file: files[0],
+      title,
+      description,
+      topics,
+      username: $profile.given_name + " " + $profile.family_name,
+      userid: $profile.contract_id,
+    };
+    
+    try {
+      // opens pop up showing posting in progress
+      deployDlg = true;
+
+      // function call to 'postAsset' function passing in created 'asset' object
+      const result = await postAsset(asset);
+
+      // closes progress pop up on successful post and resets user inputs
+      deployDlg = false;
+      e.target.reset();
+      files = [];
+
+      // opens up post success pop up
+      confirmDlg = true;
+    } catch (e) {
+      // error handling to display error in pop up
+      deployDlg = false;
+      errorMessage = e.message;
+      errorDlg = true;
+    }
   }
 </script>
 

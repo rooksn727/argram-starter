@@ -25,15 +25,52 @@
   let errorDlg = false;
 
   async function addComment(e) {
-    // write code for adding comments on posts
+    try {
+      // opens pop up showing posting in progress
+      deployDlg = true;
+
+      // function to call `addComment` function from post's contract
+      // sends function name, username and comment text as inputs
+      const res = await writeContractWOthent({
+        // function name to indicate writing to a contract
+        othentFunction: "sendTransaction",
+        data: {
+          toContractId: id,
+          toContractFunction: "addComment",
+          txnData: {
+            function: "addComment",
+            username: $profile
+              ? $profile.given_name + " " + $profile.family_name
+              : "",
+            comment: comments[id],
+          },
+        },
+      });
+
+      // closes pop up after successful comment addition and resets the input box in ui
+      deployDlg = false;
+      e.target.reset();
+
+      // fetches the latest comments on a post and stores result in commentsArray
+      commentsArray = await readComments();
+    } catch (e) {
+      // error handling to display error in pop up
+      deployDlg = false;
+      errorMessage = e.message;
+      errorDlg = true;
+    }
   }
 
   async function readComments() {
-    // write code for reading comments
+    const res = await readContractWOthent({
+      contractTxId: id,
+    });
+
+    return res.state["comments"];
   }
 
   onMount(async () => {
-    // write code for fetching comments on component first time render
+    commentsArray = await readComments();
   });
 </script>
 
